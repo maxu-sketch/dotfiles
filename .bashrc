@@ -117,10 +117,26 @@ if ! shopt -oq posix; then
   fi
 fi
 
+alias hig='history | grep'
+fig() {
+    find . -type f -exec grep -l "$1" {} +
+}
+
+
 # for shrinkwrap
 export PATH=~/cca-v10/shrinkwrap/shrinkwrap:$PATH
 export WORKSPACE=~/cca-v10/workspace
 export SHRINKWRAP_BUILD=~/cca-v10/workspace
 export SHRINKWRAP_PACKAGE=~/cca-v10/workspace/package
 
-
+export KEYSTONE=~/keystone/keystone
+export KEYSTONE_BUILDROOT=$KEYSTONE/buildroot
+export KEYSTONE_BR2_EXT=$KEYSTONE/overlays
+export KEYSTONE_DRIVER=$KEYSTONE/linux-keystone-driver
+export KEYSTONE_EXAMPLES=$KEYSTONE/examples
+export KEYSTONE_RUNTIME=$KEYSTONE/runtime
+export KEYSTONE_SDK=$KEYSTONE/sdk
+export KEYSTONE_BOOTROM=$KEYSTONE/bootrom
+export KEYSTONE_SM=$KEYSTONE/sm
+export BUILDDIR=$KEYSTONE/build-generic64
+export BUILDROOT_BUILDDIR=$BUILDDIR/buildroot.build
