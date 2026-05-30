@@ -119,7 +119,14 @@ fi
 
 alias hig='history | grep'
 fig() {
-    find . -type f -exec grep -l "$1" {} +
+    pattern="$1"
+    ext="$2"
+
+    if [ -z "$ext" ]; then
+        find . -type f -exec grep -l "$pattern" {} +
+    else
+        find . -type f -name "*.${ext}" -exec grep -l "$pattern" {} +
+    fi
 }
 
 
