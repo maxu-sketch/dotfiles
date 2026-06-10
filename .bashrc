@@ -117,33 +117,21 @@ if ! shopt -oq posix; then
   fi
 fi
 
-alias hig='history | grep'
-fig() {
-    pattern="$1"
-    ext="$2"
-
-    if [ -z "$ext" ]; then
-        find . -type f -exec grep -l "$pattern" {} +
-    else
-        find . -type f -name "*.${ext}" -exec grep -l "$pattern" {} +
-    fi
-}
-
-
 # for shrinkwrap
 export PATH=~/cca-v10/shrinkwrap/shrinkwrap:$PATH
 export WORKSPACE=~/cca-v10/workspace
 export SHRINKWRAP_BUILD=~/cca-v10/workspace
 export SHRINKWRAP_PACKAGE=~/cca-v10/workspace/package
 
-export KEYSTONE=~/keystone/keystone
-export KEYSTONE_BUILDROOT=$KEYSTONE/buildroot
-export KEYSTONE_BR2_EXT=$KEYSTONE/overlays
-export KEYSTONE_DRIVER=$KEYSTONE/linux-keystone-driver
-export KEYSTONE_EXAMPLES=$KEYSTONE/examples
-export KEYSTONE_RUNTIME=$KEYSTONE/runtime
-export KEYSTONE_SDK=$KEYSTONE/sdk
-export KEYSTONE_BOOTROM=$KEYSTONE/bootrom
-export KEYSTONE_SM=$KEYSTONE/sm
-export BUILDDIR=$KEYSTONE/build-generic64
-export BUILDROOT_BUILDDIR=$BUILDDIR/buildroot.build
+hig() {
+    if [ -z "$1" ]; then
+        echo "Usage: hig <keyword1> [keyword2]"
+        return 1
+    fi
+
+    if [ -n "$2" ]; then
+        history | grep "$1" | grep "$2"
+    else
+        history | grep "$1"
+    fi
+}
