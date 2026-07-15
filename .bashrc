@@ -135,3 +135,57 @@ hig() {
         history | grep "$1"
     fi
 }
+export PATH=$HOME/.cargo/bin:$PATH
+export WASI_SDK_PATH=/opt/wasi-sdk
+export WASI_SDK_PATH=/opt/wasi-sdk
+export PATH=$WASI_SDK_PATH/bin:$PATH
+lt() {
+    local mode="all"
+
+    case "$1" in
+        -d) mode="dir" ;;
+        -f) mode="file" ;;
+        "")
+            ;;
+        *)
+            echo "Usage: lt [-d|-f]"
+            return 1
+            ;;
+    esac
+
+    shopt -s nullglob dotglob
+
+    for f in *; do
+
+        # directory
+        if [[ -d "$f" ]]; then
+
+            [[ "$mode" == "file" ]] && continue
+
+            dirs=$(find "$f" -maxdepth 1 -mindepth 1 -type d | wc -l)
+            files=$(find "$f" -maxdepth 1 -mindepth 1 -type f | wc -l)
+            total=$((dirs + files))
+
+            printf "%s | directory [%d entries]\n" \
+                "$(ls -ldh --color=always --time-style='+%b %d %H:%M' "$f")" \
+                "$total"
+
+            if (( total <= 15 )); then
+                tree -L 1 -C --noreport "$f" |
+                    sed '1d; s/^/    /'
+            fi
+
+            continue
+        fi
+
+        # normal file
+        [[ "$mode" == "dir" ]] && continue
+
+        printf "%s\n       %s\n" \
+            "$(ls -ldh --color=always --time-style='+%b %d %H:%M' "$f")" \
+            "$(file -b "$f")"
+
+    done
+}
+alias ltd='lt -d'
+alias ltf='lt -f'
