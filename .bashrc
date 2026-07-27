@@ -170,7 +170,7 @@ lt() {
                 "$(ls -ldh --color=always --time-style='+%b %d %H:%M' "$f")" \
                 "$total"
 
-            if (( total <= 15 )); then
+            if (( total <= 7 )); then
                 tree -L 1 -C --noreport "$f" |
                     sed '1d; s/^/    /'
             fi
@@ -189,3 +189,5 @@ lt() {
 }
 alias ltd='lt -d'
 alias ltf='lt -f'
+
+alias sl='sl -e'
